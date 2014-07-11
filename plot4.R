@@ -1,0 +1,30 @@
+ExDataPlot1Data1 <- read.table(file='household_power_consumption.txt', header=FALSE,col.names=c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering_1","Sub_metering_2","Sub_metering_3"),sep=";",dec=".", colClasses="character",skip=66637,nrow=2881)
+ExDataPlot1Data1$Date<-as.Date(ExDataPlot1Data1$Date,format='%d/%m/%Y')
+ExDataPlot1Data1$Time<-format(ExDataPlot1Data1$Time,format='%H:%M:%S')
+ExDataPlot1Data1$Global_active_power<-as.numeric(ExDataPlot1Data1$Global_active_power)
+ExDataPlot1Data1$Global_reactive_power<-as.numeric(ExDataPlot1Data1$Global_reactive_power)
+ExDataPlot1Data1$Voltage<-as.numeric(ExDataPlot1Data1$Voltage)
+ExDataPlot1Data1$Global_intensity<-as.numeric(ExDataPlot1Data1$Global_intensity)
+ExDataPlot1Data1$Sub_metering_1<-as.numeric(ExDataPlot1Data1$Sub_metering_1)
+ExDataPlot1Data1$Sub_metering_2<-as.numeric(ExDataPlot1Data1$Sub_metering_2)
+ExDataPlot1Data1$Sub_metering_3<-as.numeric(ExDataPlot1Data1$Sub_metering_3)
+Datedays<-weekdays(ExDataPlot1Data1$Date)
+
+png(file="plot4.png")
+par(mfrow=c(2,2))
+plot(ExDataPlot1Data1$Global_active_power,type="l",ylab="Global Active Power",col="black", xaxt = "n")
+axis(1,at =c(1,1441,2881), labels =c (Datedays[1],Datedays[1441],Datedays[2881] ) )
+
+plot(ExDataPlot1Data1$Voltage,type="l",ylab="Voltage",col="black", xaxt = "n")
+axis(1,at =c(1,1441,2881), labels =c (Datedays[1],Datedays[1441],Datedays[2881] ) )
+
+plot(ExDataPlot1Data1$Sub_metering_1,type="l",ylab="Energy sub metering",col="black", xaxt = "n")
+lines(ExDataPlot1Data1$Sub_metering_2,col="red")
+lines(ExDataPlot1Data1$Sub_metering_3,col="blue")
+legend ("topright", legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), col=c("black","red","blue"),lty=c(1,1,1))
+axis(1,at =c(1,1441,2881), labels =c (Datedays[1],Datedays[1441],Datedays[2881] ) )
+
+plot(ExDataPlot1Data1$Global_reactive_power,type="l",ylab="Global Reactive Power",col="black", xaxt = "n")
+axis(1,at =c(1,1441,2881), labels =c (Datedays[1],Datedays[1441],Datedays[2881] ) )
+
+dev.off()
